@@ -1,38 +1,55 @@
-Role Name
+## Ansible Role: vector-role
 =========
 
-A brief description of the role goes here.
+Ansible-роль для установки и настройки ClickHouse – высокопроизводительная аналитическая СУБД на серверах.
+ClickHouse — это столбцовая система управления базами данных, предназначенная для онлайн-обработки аналитических запросов (OLAP).
 
-Requirements
+**Эта роль:**
+
+- Скачивает и устанавливает ClickHouse из официальных RPM-пакетов
+- Настраивает ClickHouse сервер и клиент
+- Создает базу данных logs и таблицу для хранения логов
+- Настраивает внешний доступ к ClickHouse
+- Управляет службой clickhouse-server (systemd)
+
+### Требования
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Перед использованием роли убедитесь, что:
 
-Role Variables
+- Ansible >= 2.9
+- Целевые хосты работают на CentOS/RHEL или совместимых дистрибутивах
+- На хостах есть доступ к интернету для загрузки RPM-пакетов
+- На хостах есть sudo‑доступ для пользователя Ansible
+
+### Переменные роли
 --------------
+Переменные роли  в `defaults/main.yml`.
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Переменная        | По умолчанию | Описание |
+|-------------------|--------------|----------|
+| `clickhouse_version`  | `"22.3.3.44"` | Версия ClickHouse для установки |
 
-Dependencies
-------------
+Переменные роли  в `vars/main.yml`.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+| Переменная        | По умолчанию | Описание |
+|-------------------|--------------|----------|
+| `clickhouse_packages`  | `["clickhouse-client", "clickhouse-server", "clickhouse-common-static"]` | Список пакетов ClickHouse для установки |
 
-Example Playbook
+### Пример использования
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+Вот пример простого playbook, который устанавливает Vector на группу хостов:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yml
+---
+- name: Install ClickHouse
+  hosts: clickhouse
+  roles:
+    - clickhouse-role
+```
 
-License
+### Лицензия
 -------
 
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+MIT License
