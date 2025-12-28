@@ -1,4 +1,4 @@
-## Ansible Role: vector-role
+## Ansible Role: ClickHouse-role
 =========
 
 Ansible-роль для установки и настройки ClickHouse – высокопроизводительная аналитическая СУБД на серверах.
